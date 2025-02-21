@@ -27,6 +27,9 @@ function Map:init()
    self.entityLayer.visible = false
    MapWidth = self.groundLayer.width * 16
 
+   maplevel = self.currentLevel  -- No 'global' needed in most cases.  'maplevel' will be local to the current scope unless you're explicitly managing globals across files (which is less common).
+   print("map debugging.... Current map is ".. maplevel) --.. is the string concatenation operator
+
    self:spawnEntities()
 end
 

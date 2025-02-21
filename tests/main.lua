@@ -8,24 +8,37 @@ local Camera = require("camera")
 local Enemy = require("enemy")
 local Map = require("map")
 
+-- Declare cameraPosition outside of any function (but it will be assigned in love.update)
+cameraPosition = 0
+
 function love.load()
-	Enemy.loadAssets()
-	Map:load()
-	background = love.graphics.newImage("assets/background.png")
-	GUI:load()
-	Player:load()
+    Enemy.loadAssets()
+    Map:load()
+    background = love.graphics.newImage("assets/background.png")
+    GUI:load()
+    Player:load()
 end
 
+
 function love.update(dt)
-	World:update(dt)
-	Player:update(dt)
-	Coin.updateAll(dt)
-	Spike.updateAll(dt)
-	Stone.updateAll(dt)
-	Enemy.updateAll(dt)
-	GUI:update(dt)
-	Camera:setPosition(Player.x, 0)
-	Map:update(dt)
+    World:update(dt)
+    Player:update(dt)
+    Coin.updateAll(dt)
+    Spike.updateAll(dt)
+    Stone.updateAll(dt)
+    Enemy.updateAll(dt)
+    GUI:update(dt)
+
+    Map:update(dt)  -- Important: Update the map *before* checking the level
+
+    -- Check the map level and set cameraPosition *every frame*
+    if Map.currentLevel == 2 then
+        cameraPosition = 740
+    else
+        cameraPosition = 0
+    end
+
+    Camera:setPosition(Player.x, cameraPosition) -- Use the updated cameraPosition
 end
 
 function love.draw()
@@ -57,16 +70,16 @@ function love.draw()
 end
 
 function love.keypressed(key)
-	Player:jump(key)
+    Player:jump(key)
 end
 
 function beginContact(a, b, collision)
-	if Coin.beginContact(a, b, collision) then return end
-	if Spike.beginContact(a, b, collision) then return end
-	Enemy.beginContact(a, b, collision)
-	Player:beginContact(a, b, collision)
+    if Coin.beginContact(a, b, collision) then return end
+    if Spike.beginContact(a, b, collision) then return end
+    Enemy.beginContact(a, b, collision)
+    Player:beginContact(a, b, collision)
 end
 
 function endContact(a, b, collision)
-	Player:endContact(a, b, collision)
+    Player:endContact(a, b, collision)
 end

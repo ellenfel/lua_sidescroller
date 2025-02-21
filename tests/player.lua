@@ -1,5 +1,3 @@
-
-
 local Player = {}
 
 function Player:load()
@@ -11,7 +9,7 @@ function Player:load()
    self.height = 60
    self.xVel = 0
    self.yVel = 0
-   self.maxSpeed = 400
+   self.maxSpeed = 500
    self.acceleration = 4000
    self.friction = 3500
    self.gravity = 1500
