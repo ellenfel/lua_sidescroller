@@ -29,18 +29,31 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.draw(background)
-	Map.level:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
+    -- Get screen dimensions
+    local screenWidth = love.graphics.getWidth()
+    local screenHeight = love.graphics.getHeight()
 
-	Camera:apply()
-	Player:draw()
-	Enemy.drawAll()
-	Coin.drawAll()
-	Spike.drawAll()
-	Stone.drawAll()
-	Camera:clear()
+    -- Get background dimensions
+    local bgWidth = background:getWidth()
+    local bgHeight = background:getHeight()
 
-	GUI:draw()
+    -- Calculate scaling factors
+    local scaleX = screenWidth / bgWidth
+    local scaleY = screenHeight / bgHeight
+
+    -- Draw the background scaled to fit the screen
+    love.graphics.draw(background, 0, 0, 0, scaleX, scaleY)
+
+    -- Draw the map and other game elements
+    Map.level:draw(-Camera.x, -Camera.y, Camera.scale, Camera.scale)
+    Camera:apply()
+    Player:draw()
+    Enemy.drawAll()
+    Coin.drawAll()
+    Spike.drawAll()
+    Stone.drawAll()
+    Camera:clear()
+    GUI:draw()
 end
 
 function love.keypressed(key)
