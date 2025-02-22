@@ -47,12 +47,12 @@ end
 function Player:loadAssets()
    self.animation = {timer = 0, rate = 0.1}
 
-   self.animation.run = {total = 6, current = 1, img = {}}
+   self.animation.run = {total = 16, current = 1, img = {}}
    for i=1, self.animation.run.total do
       self.animation.run.img[i] = love.graphics.newImage("assets/player/run/"..i..".png")
    end
 
-   self.animation.idle = {total = 4, current = 1, img = {}}
+   self.animation.idle = {total = 10, current = 1, img = {}}
    for i=1, self.animation.idle.total do
       self.animation.idle.img[i] = love.graphics.newImage("assets/player/idle/"..i..".png")
    end
