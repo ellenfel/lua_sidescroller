@@ -57,7 +57,7 @@ function Player:loadAssets()
       self.animation.idle.img[i] = love.graphics.newImage("assets/player/idle/"..i..".png")
    end
 
-   self.animation.air = {total = 4, current = 1, img = {}}
+   self.animation.air = {total = 5, current = 1, img = {}}
    for i=1, self.animation.air.total do
       self.animation.air.img[i] = love.graphics.newImage("assets/player/air/"..i..".png")
    end
@@ -242,10 +242,15 @@ end
 function Player:draw()
    local scaleX = 1
    if self.direction == "left" then
-      scaleX = -1
+      scaleX = -2  -- Scale twice as big and flip horizontally if facing left
+   else
+      scaleX = 2  -- Scale twice as big
    end
+   local scaleY = 2  -- Scale twice as big vertically
+
    love.graphics.setColor(self.color.red, self.color.green, self.color.blue)
-   love.graphics.draw(self.animation.draw, self.x, self.y, 0, scaleX, 1, self.animation.width / 2, self.animation.height / 2)
+   -- Adjust the y-coordinate to ensure the character's feet are aligned with the ground
+   love.graphics.draw(self.animation.draw, self.x, self.y - self.animation.height * scaleY / 2 + 59, 0, scaleX, scaleY, self.animation.width / 2, self.animation.height / 2)
    love.graphics.setColor(1,1,1,1)
 end
 
